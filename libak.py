@@ -19,10 +19,12 @@ def beolvasas():
             l.append(int(sor.strip()))
     return l
 
-def kiir(l, r_m_kg, r_a):
+def kiir(l, r_m_kg, r_a, r_l3s, r_lklen):
     print(f"A libák súlyai: {l}")
     print(f"{r_m_kg} kg libát ehet meg a róka")
     print(f"Átlagosan {r_a} kilósak a rókának maradt libák")
+    print(f"{r_l3s} olyan, hogy a róka legalább 3 kg-s libát lopott.")
+    print(f"{r_lklen} olyan, hogy a róka kisebb libát hozott, mint az előző napon.")
     
 def osszegzes(l):
     osszeg=0
@@ -38,12 +40,43 @@ def megszamolas(l):
             db+=1
     return db
             
-    
+def eldontes1(l):
+    van=False
+    i=0
+    while i<len(l) and not l[i]>=3:   
+        i+=1
+    if i<len(l):
+        van=True
+    return van         
+            
+def eldontes2(l):
+    i=len(l)-1            
+    while i>0 and not (l[i]>l[i-1]):
+        i-=1
+    if i<len(l):
+        van=True
+    else:
+        van=False
+    return van
+            
+            
             
 
 libak=beolvasas()
 r_megehet_ossz_kg=osszegzes(libak)
 r_megehet_db=megszamolas(libak)
 r_atlag=r_megehet_ossz_kg/r_megehet_db
+r_legalabb_harom_e=eldontes1(libak)
+if r_legalabb_harom_e:
+    r_legalabb_harom_e_string="Előfordult"
+else:
+    r_legalabb_harom_e_string="Nem fordult elő"
+    
+r_lopott_kisebb_libat_elozo_nap=eldontes2(libak)
+if r_lopott_kisebb_libat_elozo_nap:
+    r_lopott_kisebb_libat_elozo_nap_string="Előfordult"
+else:
+    r_lopott_kisebb_libat_elozo_nap_string="Nem fordult elő"
 
-kiir(libak, r_megehet_ossz_kg, r_atlag)
+
+kiir(libak, r_megehet_ossz_kg, r_atlag, r_legalabb_harom_e_string, r_lopott_kisebb_libat_elozo_nap_string)
